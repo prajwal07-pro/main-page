@@ -16,12 +16,35 @@ const UserLogin = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && password) {
+    
+    // 1. Retrieve User Data from LocalStorage
+    const storedData = localStorage.getItem(`job_user_${email}`);
+    
+    if (!storedData) {
+      toast({
+        title: "Account Not Found",
+        description: "No account found with this email. Please create an account.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const user = JSON.parse(storedData);
+
+    // 2. Verify Password
+    if (user.password === password) {
       toast({
         title: "Login Successful",
-        description: "Redirecting to profile setup...",
+        description: `Welcome back, ${user.fullName}!`,
       });
-      setTimeout(() => navigate("/user-profile-setup"), 1000);
+      // 3. Redirect to Dashboard
+      setTimeout(() => navigate("/user-dashboard"), 1000);
+    } else {
+      toast({
+        title: "Login Failed",
+        description: "Incorrect password. Please try again.",
+        variant: "destructive"
+      });
     }
   };
 
@@ -81,7 +104,13 @@ const UserLogin = () => {
             </form>
 
             <div className="mt-6 text-center text-sm text-muted-foreground">
-              New user? <span className="text-secondary font-medium cursor-pointer hover:underline">Create account</span>
+              New user?{" "}
+              <span 
+                onClick={() => navigate("/user-profile-setup")} 
+                className="text-secondary font-medium cursor-pointer hover:underline"
+              >
+                Create account
+              </span>
             </div>
           </Card>
         </div>
