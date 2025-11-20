@@ -84,7 +84,7 @@ const UserDashboard = () => {
 
     setIsSearching(true);
     try {
-      const response = await fetch('http://localhost:5000/api/smart-search', {
+      const response = await fetch('http://backend-search.vercel.app/api/smart-search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: searchTerm })
@@ -137,7 +137,7 @@ const UserDashboard = () => {
             {/* Added Verifier Button */}
             <Button 
               variant="default" 
-              onClick={() => window.open('http://localhost:3000', '_blank')} 
+              onClick={() => window.open('https://frontend-search.vercel.app', '_blank')} 
               className="gap-2 hover:scale-105 transition-smooth bg-blue-600 hover:bg-blue-700 text-white"
             >
               <CheckCircle className="h-4 w-4" />
